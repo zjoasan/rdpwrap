@@ -1,3 +1,13 @@
+
+Apr 29, 2023
+
+RDP Wrapper Library mod v1.8.8.8
+
+    Added H264_OFF and command to restore it when reinstalling
+    Updated onboard ini file
+
+________________________________________________________________
+
 May 17, 2022
 
 RDP Wrapper Library mod v1.8.8.7
