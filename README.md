@@ -30,6 +30,35 @@ RDP Wrapper works as a layer between Service Control Manager and Terminal Servic
 </div>
 
 ## Table of Contents
+- [RDP Wrapper Library.](#rdp-wrapper-library)
+	- [Table of Contents](#table-of-contents)
+	- [| Windows 10    |    |](#-windows-10--------)
+		- [Attention:](#attention)
+		- [Information:](#information)
+		- [Key features:](#key-features)
+		- [Porting to other platforms:](#porting-to-other-platforms)
+		- [Building the binaries:](#building-the-binaries)
+		- [Links:](#links)
+			- [Tutorial videos:](#tutorial-videos)
+		- [Files in release package:](#files-in-release-package)
+		- [Frequently Asked Questions](#frequently-asked-questions)
+		- [Known issues:](#known-issues)
+		- [Change log:](#change-log)
+			- [2017.12.27](#20171227)
+			- [2016.08.01](#20160801)
+			- [2015.08.12](#20150812)
+			- [2014.12.11](#20141211)
+			- [2014.11.14](#20141114)
+			- [2014.10.21](#20141021)
+			- [2014.10.20](#20141020)
+			- [2014.07.26](#20140726)
+			- [2013.12.09](#20131209)
+			- [2013.10.25](#20131025)
+			- [2013.10.22](#20131022)
+			- [2013.10.19](#20131019)
+			- [Supported Terminal Services versions:](#supported-terminal-services-versions)
+			- [Confirmed working on:](#confirmed-working-on)
+
 
 [pVistaST]:  http://stascorp.com/images/rdpwrap/pVistaST.jpg
 [pVistaHB]:  http://stascorp.com/images/rdpwrap/pVistaHB.jpg
