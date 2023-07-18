@@ -1,4 +1,4 @@
-# RDP Wrapper Library by Stas'M
+# [RDP Wrapper Library.](https://github.com/BrenoFariasdaSilva/RDPWrapper)
 
 <div align="center">
   
