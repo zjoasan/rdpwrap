@@ -508,7 +508,7 @@ begin
     1: begin
       lsWrapper.Caption := 'Installed';
       lsWrapper.StyleElements := lsWrapper.StyleElements - [seFont];
-      lsWrapper.Font.Color := clLime;
+      lsWrapper.Font.Color := $0000C800;
       CheckSupp := True;
       INIPath := ExtractFilePath(ExpandPath(WrapperPath)) + 'rdpwrap.ini';
       if not FileExists(INIPath) then
@@ -541,7 +541,7 @@ begin
     SERVICE_RUNNING: begin
       lsService.Caption := 'Running';
       lsService.StyleElements := lsService.StyleElements - [seFont];
-      lsService.Font.Color := clLime;
+      lsService.Font.Color := $0000C800;
     end;
     SERVICE_CONTINUE_PENDING: begin
       lsService.Caption := 'Resuming...';
@@ -559,7 +559,7 @@ begin
   if IsListenerWorking then begin
     lsListener.Caption := 'Listening';
     lsListener.StyleElements := lsListener.StyleElements - [seFont];
-    lsListener.Font.Color := clLime;
+    lsListener.Font.Color := $0000C800;
   end else begin
     lsListener.Caption := 'Not listening';
     lsListener.StyleElements := lsListener.StyleElements - [seFont];
@@ -615,7 +615,7 @@ begin
         2: begin
           lsSuppVer.Caption := '[fully supported]';
           lsSuppVer.StyleElements := lsSuppVer.StyleElements - [seFont];
-          lsSuppVer.Font.Color := clLime;
+          lsSuppVer.Font.Color := $0000C800;
         end;
       end;
     end;
