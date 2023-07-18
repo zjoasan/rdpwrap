@@ -29,6 +29,7 @@ RDP Wrapper works as a layer between Service Control Manager and Terminal Servic
 
 </div>
 
+## Table of Contents
 
 [pVistaST]:  http://stascorp.com/images/rdpwrap/pVistaST.jpg
 [pVistaHB]:  http://stascorp.com/images/rdpwrap/pVistaHB.jpg
