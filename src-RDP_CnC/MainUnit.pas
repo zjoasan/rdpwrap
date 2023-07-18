@@ -50,6 +50,8 @@ type
     b1024x768: TButton;
     b1366x768: TButton;
     b1920x1080: TButton;
+    bUpdateINI: TButton;
+    bRestartTS: TButton;
     procedure FormCreate(Sender: TObject);
     procedure cbAllowTSConnectionsClick(Sender: TObject);
     procedure seRDPPortChange(Sender: TObject);
@@ -65,6 +67,9 @@ type
     procedure b1024x768Click(Sender: TObject);
     procedure b1366x768Click(Sender: TObject);
     procedure b1920x1080Click(Sender: TObject);
+    procedure bUpdateINIClick(Sender: TObject);
+    procedure bRestartTSClick(Sender: TObject);
+    procedure RestartThisApp;
   private
     { Private declarations }
   public
@@ -616,6 +621,22 @@ begin
     end;
   end;
 end;
+
+procedure TMainForm.RestartThisApp;
+begin
+  ShellExecute(0, nil, PChar(Application.ExeName), nil, nil, SW_SHOWNORMAL);
+  Application.Terminate;
+end;
+
+procedure TMainForm.bUpdateINIClick(Sender: TObject);
+begin
+  if not FileExists('C:\Program Files\RDP Wrapper\RDPWInst.exe') then
+    ShowMessage('RDPWInst.exe not found')
+  else
+    ExecWait('C:\Program Files\RDP Wrapper\RDPWInst.exe -w');
+    RestartThisApp;
+end;
+
 procedure TMainForm.bLicenseClick(Sender: TObject);
 begin
   LicenseForm.mText.Text := ExtractResText('LICENSE');
@@ -666,6 +687,13 @@ begin
     bApply.Enabled := False;
   end;
   Close;
+end;
+
+procedure TMainForm.bRestartTSClick(Sender: TObject);
+begin
+  ExecWait('net stop termservice /y');
+  ExecWait('net start termservice /y');
+  RestartThisApp;
 end;
 
 procedure TMainForm.bCancelClick(Sender: TObject);

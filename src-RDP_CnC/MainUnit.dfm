@@ -17,6 +17,33 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
+  object rgNLA: TRadioGroup
+    Left = 290
+    Top = 195
+    Width = 268
+    Height = 102
+    BiDiMode = bdLeftToRight
+    Caption = 'Authentication Mode'
+    DefaultHeaderFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    HeaderFont.Charset = DEFAULT_CHARSET
+    HeaderFont.Color = clWindowText
+    HeaderFont.Height = -13
+    HeaderFont.Name = 'Tahoma'
+    HeaderFont.Style = [fsBold]
+    Items.Strings = (
+      'GUI Authentication Only'
+      'Default RDP Authentication'
+      'Network Level Authentication')
+    ParentBiDiMode = False
+    ParentFont = False
+    TabOrder = 2
+    OnClick = cbAllowTSConnectionsClick
+  end
   object bOK: TButton
     Left = 0
     Top = 404
@@ -64,33 +91,6 @@ object MainForm: TMainForm
     ParentFont = False
     TabOrder = 6
     OnClick = bApplyClick
-  end
-  object rgNLA: TRadioGroup
-    Left = 290
-    Top = 195
-    Width = 268
-    Height = 143
-    BiDiMode = bdLeftToRight
-    Caption = 'Authentication Mode'
-    DefaultHeaderFont = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    HeaderFont.Charset = DEFAULT_CHARSET
-    HeaderFont.Color = clWindowText
-    HeaderFont.Height = -13
-    HeaderFont.Name = 'Tahoma'
-    HeaderFont.Style = [fsBold]
-    Items.Strings = (
-      'GUI Authentication Only'
-      'Default RDP Authentication'
-      'Network Level Authentication')
-    ParentBiDiMode = False
-    ParentFont = False
-    TabOrder = 2
-    OnClick = cbAllowTSConnectionsClick
   end
   object rgShadow: TRadioGroup
     Left = 8
@@ -503,6 +503,36 @@ object MainForm: TMainForm
       TabOrder = 4
       OnClick = b1920x1080Click
     end
+  end
+  object bUpdateINI: TButton
+    Left = 290
+    Top = 303
+    Width = 130
+    Height = 35
+    Caption = 'Update INI'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 9
+    OnClick = bUpdateINIClick
+  end
+  object bRestartTS: TButton
+    Left = 426
+    Top = 303
+    Width = 127
+    Height = 35
+    Caption = 'Restart TermService'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 10
+    OnClick = bRestartTSClick
   end
   object Timer: TTimer
     Interval = 250
