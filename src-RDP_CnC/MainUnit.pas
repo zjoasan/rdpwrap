@@ -112,7 +112,7 @@ implementation
 {$R *.dfm}
 {$R resource.res}
 uses
-  LicenseUnit;
+  LicenseUnit, WindowsDarkMode;
 function ExpandPath(Path: String): String;
 var
   Str: Array[0..511] of Char;

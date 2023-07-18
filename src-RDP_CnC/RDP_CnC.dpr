@@ -17,13 +17,14 @@ uses
   MainUnit in 'MainUnit.pas' {MainForm},
   LicenseUnit in 'LicenseUnit.pas' {LicenseForm},
   Vcl.Themes,
-  Vcl.Styles;
+  Vcl.Styles,
+  WindowsDarkMode in 'WindowsDarkMode.pas';
 
 {$R *.res}
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  TStyleManager.TrySetStyle('Glossy');
+  SetAppropriateThemeMode('Glossy', 'Windows');
   Application.Title := 'Remote Desktop Protocol Configuration';
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TLicenseForm, LicenseForm);
