@@ -6,9 +6,11 @@
 
 <div align="center">
   
-![RepoBeats Statistics](https://repobeats.axiom.co/api/embed/e3a0c6672ce4228ac8d397377202d84a771bfe04.svg "Repobeats analytics image")
+---
 
-</div>
+The goal of this project is to enable Remote Desktop Host support and concurrent RDP sessions on reduced functionality systems for home usage.
+
+RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.
 
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/rdpwrap)
 ![Environment](https://img.shields.io/badge/Windows-Vista,%207,%208,%2010-brightgreen.svg)
@@ -17,9 +19,16 @@
 ![Downloads](https://img.shields.io/github/downloads/stascorp/rdpwrap/latest/total.svg)
 ![TotalDownloads](https://img.shields.io/github/downloads/stascorp/rdpwrap/total.svg)
 
-The goal of this project is to enable Remote Desktop Host support and concurrent RDP sessions on reduced functionality systems for home usage.
+---
 
-RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.
+</div>
+
+<div align="center">
+  
+![RepoBeats Statistics](https://repobeats.axiom.co/api/embed/e3a0c6672ce4228ac8d397377202d84a771bfe04.svg "Repobeats analytics image")
+
+</div>
+
 
 [pVistaST]:  http://stascorp.com/images/rdpwrap/pVistaST.jpg
 [pVistaHB]:  http://stascorp.com/images/rdpwrap/pVistaHB.jpg
