@@ -1,4 +1,16 @@
 
+Jul 19, 2023
+
+RDP Wrapper Library mod v1.8.9.9
+
+
+    Added buttons "Update ini" and "Restart TermService" to RDP_CnC
+    Added automatic theme selection depending on the windows theme, so there's only installer
+    Changed green color to be visible in both theme styles
+    Updated onboard ini file
+
+________________________________________________________________
+
 Apr 29, 2023
 
 RDP Wrapper Library mod v1.8.8.8
