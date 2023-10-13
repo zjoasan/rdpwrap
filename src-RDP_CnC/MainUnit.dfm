@@ -418,7 +418,7 @@ object MainForm: TMainForm
     Hint = 
       'Choose your resolution. We prefore "mstsc" button. You can click' +
       ' every button many times ;)'
-    Caption = '         Check yor settings with mstsc'
+    Caption = '         Check your settings with mstsc'
     DefaultHeaderFont = False
     HeaderFont.Charset = DEFAULT_CHARSET
     HeaderFont.Color = clWindowText
