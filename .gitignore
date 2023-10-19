@@ -15,3 +15,5 @@ __history/
 # MSI local stuff
 *.wixobj
 *.wixpdb
+
+.DS_Store
