@@ -41,6 +41,10 @@ RDP Wrapper works as a layer between Service Control Manager and Terminal Servic
 		- [Links:](#links)
 			- [Tutorial videos:](#tutorial-videos)
 		- [Files in release package:](#files-in-release-package)
+		- [Trouble Shooting:](#trouble-shooting)
+			- [RDPConfig.exe -\> "Not Supported":](#rdpconfigexe---not-supported)
+			- [MSTSC -\> "The number of connections to this computer is limited":](#mstsc---the-number-of-connections-to-this-computer-is-limited)
+			- [Enable 60FPS on RDP:](#enable-60fps-on-rdp)
 		- [Frequently Asked Questions](#frequently-asked-questions)
 		- [Known issues:](#known-issues)
 		- [Change log:](#change-log)
@@ -163,6 +167,35 @@ It's recommended to have original termsrv.dll file with the RDP Wrapper installa
 | `install.bat`   | Quick install batch file |
 | `uninstall.bat` | Quick uninstall batch file |
 | `update.bat`    | Quick update batch file |
+
+### Trouble Shooting:
+
+#### RDPConfig.exe -> "Not Supported":
+In `RDPConfig.exe`, if you are getting the message "The number of connections to this computer is limited",
+Go to: https://github.com/stascorp/rdpwrap/issues
+Then, on the filter bar on GitHub, put is:issue RDPConfig Ver that is above "Not Supported or Supported".
+When you get the .ini text, paste it on C:\Program Files\RDP Wrapper folder .ini file
+After that, press enter at the end of the file and save changes.
+
+Next, run RDPConf.exe and check if it is all green lights
+
+Next, click Windows+R and type mstsc
+
+In mstsc, click on "Show Options", then type: mstsc 127.0.0.2 in the "Computer"
+In the Username type the account Username and save the shortcut file
+
+#### MSTSC -> "The number of connections to this computer is limited":
+If you get the message "The number of connections to this computer is limited", Open:
+https://github.com/stascorp/rdpwrap/issues/1401
+
+Futhermore, read: http://woshub.com/how-to-allow-multiple-rdp-sessions-in-windows-10/
+
+#### Enable 60FPS on RDP:
+Open Regedit and put the path inside the search bar
+Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Terminal Server\WinStations
+Novo Valor -> DWORD(32-bit)
+DWFRAMEINTERVAL
+Decimal -> 15
 
 ### Frequently Asked Questions
 
