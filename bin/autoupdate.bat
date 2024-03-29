@@ -10,7 +10,7 @@ setlocal EnableDelayedExpansion
 ::  \_||_|\____|\___\___/ \____| ||_/ \____|\_||_|\___\____(_|____/ \_||_|\___)
 ::                             |_|
 ::
-:: Automatic RDP Wrapper installer and updater v.1.1       asmtron (2023-10-18)
+:: Automatic RDP Wrapper installer and updater v.1.2       asmtron (2024-29-03)
 :: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :: Options:
 ::   -log        = redirect display output to the file autoupdate.log
@@ -29,15 +29,15 @@ setlocal EnableDelayedExpansion
 :: -----------------------------------------
 :: Location of new/updated rdpwrap.ini files
 :: -----------------------------------------
-set rdpwrap_ini_update_github_1="https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini"
-set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/asmtron/rdpwrap/master/res/rdpwrap.ini"
+set rdpwrap_ini_update_github_1="https://raw.githubusercontent.com/asmtron/rdpwrap/master/res/rdpwrap.ini"
+set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini"
 set rdpwrap_ini_update_github_3="https://raw.githubusercontent.com/affinityv/INI-RDPWRAP/master/rdpwrap.ini"
 set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
 set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
 :: set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.6...."
 :: set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.7...."
 ::
-set autoupdate_version=1.1
+set autoupdate_version=1.2
 set autoupdate_url="https://raw.githubusercontent.com/asmtron/rdpwrap/master/bin/autoupdate.bat"
 set autoupdate_ver_url="https://raw.githubusercontent.com/asmtron/rdpwrap/master/bin/autoupdate.ver"
 set autoupdate_bat="%~dp0autoupdate.bat"
