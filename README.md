@@ -1,7 +1,5 @@
 # RDP Wrapper Library by Stas'M mod by sebaxakerhtc
 
-$${\color{red}Do \space not \space install \space on \space 24H2 \space as \space it \space not \space work \space for \space now!}$$
-
 ### All thanks for the project to [Stas'M](https://github.com/stascorp/rdpwrap)
 
 ### Building the binaries:
