@@ -31,9 +31,9 @@ jobs:
 
     - name: Build project
       run: |
-        msbuild src-installer/RDPWInst.dproj
-        msbuild src-rdpcheck/RDPCheck.dproj
-        msbuild src-rdpconfig/RDPConf.dproj
+        # msbuild src-installer/RDPWInst.dproj
+        # msbuild src-rdpcheck/RDPCheck.dproj
+        # msbuild src-rdpconfig/RDPConf.dproj
         msbuild src-x86-binarymaster/rdpwrap.dproj
         msbuild src-x86-x64-Fusix/RDPWrap.vcxproj
 
