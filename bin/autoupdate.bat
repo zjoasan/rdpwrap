@@ -38,7 +38,7 @@ set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/saurav-biswas
 :: set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.6...."
 :: set rdpwrap_ini_update_github_8="https://raw.githubusercontent.com/....Extra.7...."
 ::
-set autoupdate_version=1.2
+set autoupdate_version=1.3
 set autoupdate_url="https://raw.githubusercontent.com/asmtron/rdpwrap/master/bin/autoupdate.bat"
 set autoupdate_ver_url="https://raw.githubusercontent.com/asmtron/rdpwrap/master/bin/autoupdate.ver"
 set autoupdate_bat="%~dp0autoupdate.bat"
