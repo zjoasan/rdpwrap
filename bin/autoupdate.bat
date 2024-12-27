@@ -10,7 +10,7 @@ setlocal EnableDelayedExpansion
 ::  \_||_|\____|\___\___/ \____| ||_/ \____|\_||_|\___\____(_|____/ \_||_|\___)
 ::                             |_|
 ::
-:: Automatic RDP Wrapper installer and updater v.1.2       asmtron (2024-29-03)
+:: Automatic RDP Wrapper installer and updater v.1.3       asmtron (2024-27-12)
 :: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :: Options:
 ::   -log        = redirect display output to the file autoupdate.log
@@ -21,7 +21,7 @@ setlocal EnableDelayedExpansion
 ::   The autoupdater first use and check the official rdpwrap.ini.
 ::   If a new termsrv.dll is not supported in the offical rdpwrap.ini,
 ::   autoupdate uses the updated rdpwrap.ini files from the community.
-::   contributors: "sebaxakerhtc, asmtron, affinityv, DrDrrae, saurav-biswas"
+::   contributors: "sebaxakerhtc, asmtron, affinityv, apolope, DrDrrae, saurav-biswas"
 ::   Extra rdpwrap.ini sources can also be defined...
 ::
 :: { Special thanks to binarymaster and all other contributors }
@@ -32,10 +32,11 @@ setlocal EnableDelayedExpansion
 set rdpwrap_ini_update_github_1="https://raw.githubusercontent.com/asmtron/rdpwrap/master/res/rdpwrap.ini"
 set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini"
 set rdpwrap_ini_update_github_3="https://raw.githubusercontent.com/affinityv/INI-RDPWRAP/master/rdpwrap.ini"
-set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
-set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
-:: set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.6...."
-:: set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.7...."
+set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/apolope/rdpwrap/master/res/rdpwrap.ini"
+set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
+set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
+:: set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.6...."
+:: set rdpwrap_ini_update_github_8="https://raw.githubusercontent.com/....Extra.7...."
 ::
 set autoupdate_version=1.2
 set autoupdate_url="https://raw.githubusercontent.com/asmtron/rdpwrap/master/bin/autoupdate.bat"
