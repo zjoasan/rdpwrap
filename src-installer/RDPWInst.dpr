@@ -472,6 +472,58 @@ begin
   Result := True;
 end;
 
+function StopService(const ServiceName: string): Boolean;
+var
+  SCMHandle, ServiceHandle: SC_HANDLE;
+  ServiceStatus: TServiceStatus;
+begin
+  Result := False;
+
+  // Open the service control manager
+  SCMHandle := OpenSCManager(nil, nil, SC_MANAGER_ALL_ACCESS);
+  if SCMHandle = 0 then
+  begin
+    Writeln('Failed to open Service Control Manager.');
+    Exit;
+  end;
+
+  try
+    // Open the specified service
+    ServiceHandle := OpenService(SCMHandle, PChar(ServiceName), SERVICE_STOP or SERVICE_QUERY_STATUS);
+    if ServiceHandle = 0 then
+    begin
+      Writeln('Failed to open the service: ', ServiceName);
+      Exit;
+    end;
+
+    try
+      // Send stop command
+      if ControlService(ServiceHandle, SERVICE_CONTROL_STOP, ServiceStatus) then
+      begin
+        // Check if the service is stopped
+        while QueryServiceStatus(ServiceHandle, ServiceStatus) do
+        begin
+          if ServiceStatus.dwCurrentState = SERVICE_STOPPED then
+          begin
+            Result := True;
+            Break;
+          end;
+          // Wait for the service to stop
+          Sleep(100);
+        end;
+      end
+      else
+      begin
+        Writeln('Failed to send stop command to the service: ', ServiceName);
+      end;
+    finally
+      CloseServiceHandle(ServiceHandle);
+    end;
+  finally
+    CloseServiceHandle(SCMHandle);
+  end;
+end;
+
 procedure KillProcess(PID: DWORD);
 var
   hProc: THandle;
@@ -615,18 +667,23 @@ begin
   Str.Free;
 end;
 
-function GitINIFile(var Content: String): Boolean;
+function GitINIFile(var Content: String; INI_source: String): Boolean;
 const
-  URL = 'https://raw.githubusercontent.com/stascorp/rdpwrap/master/res/rdpwrap.ini';
+  DEFAULT_URL = 'https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini';
 var
   NetHandle: HINTERNET;
   UrlHandle: HINTERNET;
   Str: String;
   Buf: Array[0..1023] of Byte;
   BytesRead: DWORD;
+  URL: String;
 begin
   Result := False;
   Content := '';
+  if INI_source = '' then
+    URL := DEFAULT_URL
+  else
+      URL := INI_source;
   NetHandle := InternetOpen('RDP Wrapper Update', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
   if not Assigned(NetHandle) then
     Exit;
@@ -706,7 +763,7 @@ begin
   begin
     Writeln('[*] Downloading latest INI file...');
     OnlineINI := TStringList.Create;
-    if GitINIFile(S) then begin
+    if GitINIFile(S, '') then begin
       OnlineINI.Text := S;
       S := ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini';
       OnlineINI.SaveToFile(S);
@@ -1070,11 +1127,13 @@ begin
   Result := True;
 end;
 
-procedure CheckUpdate;
+procedure CheckUpdate(source: String);
 var
   INIPath, S: String;
   Str: TStringList;
   I, OldDate, NewDate: Integer;
+  UmRdpService_ServiceStopped: Boolean;
+  TermService_ServiceStopped: Boolean;
 begin
   INIPath := ExtractFilePath(ExpandPath(TermServicePath)) + 'rdpwrap.ini';
   if not CheckINIDate(INIPath, '', OldDate) then
@@ -1082,7 +1141,7 @@ begin
   Writeln('[*] Current update date: ',
     Format('%d.%.2d.%.2d', [OldDate div 10000, OldDate div 100 mod 100, OldDate mod 100]));
 
-  if not GitINIFile(S) then begin
+  if not GitINIFile(S, source) then begin
     Writeln('[-] Failed to download latest INI from GitHub.');
     Halt(ERROR_ACCESS_DENIED);
   end;
@@ -1101,8 +1160,22 @@ begin
 
       Writeln('[*] Terminating service...');
       AddPrivilege('SeDebugPrivilege');
-      KillProcess(TermServicePID);
-      Sleep(1000);
+      
+      UmRdpService_ServiceStopped := StopService('UmRdpService');
+      TermService_ServiceStopped := StopService('TermService');
+
+      if TermService_ServiceStopped and UmRdpService_ServiceStopped then
+      begin
+        Writeln('[+] UmRdpService stopped successfully.');
+        Writeln('[+] TermService stopped successfully.');
+      end
+      else
+      begin
+      if not UmRdpService_ServiceStopped then
+        Writeln('[-] Failed to stop UmRdpService.');
+      if not TermService_ServiceStopped then
+        Writeln('[-] Failed to stop TermService.');
+      end;
 
       if Length(ShareSvc) > 0 then
         for I := 0 to Length(ShareSvc) - 1 do
@@ -1120,6 +1193,7 @@ begin
       Str.Free;
 
       SvcStart(TermService);
+      SvcStart('UmRdpService');
 
       Writeln('[+] Update completed.');
     end else
@@ -1129,9 +1203,10 @@ end;
 var
   I: Integer;
 begin
-  Writeln('RDP Wrapper Library v1.6.2');
+  Writeln('RDP Wrapper Library v1.7.4');
   Writeln('Installer v2.6');
   Writeln('Copyright (C) Stas''M Corp. 2018');
+  Writeln('Mod by sebaxakerhtc 2021');
   Writeln('');
 
   if (ParamCount < 1)
@@ -1144,13 +1219,14 @@ begin
   ) then
   begin
     Writeln('USAGE:');
-    Writeln('RDPWInst.exe [-l|-i[-s][-o]|-w|-u[-k]|-r]');
+    Writeln('RDPWInst.exe [-l|-i[-s][-o]|-w[url]|-u[-k]|-r]');
     Writeln('');
     Writeln('-l          display the license agreement');
     Writeln('-i          install wrapper to Program Files folder (default)');
     Writeln('-i -s       install wrapper to System32 folder');
     Writeln('-i -o       online install mode (loads latest INI file)');
     Writeln('-w          get latest update for INI file');
+    Writeln('-w URL      get latest update for INI file from custom source');
     Writeln('-u          uninstall wrapper');
     Writeln('-u -k       uninstall wrapper and keep settings');
     Writeln('-r          force restart Terminal Services');
@@ -1290,7 +1366,10 @@ begin
       Halt(ERROR_INVALID_FUNCTION);
     end;
     Writeln('[*] Checking for updates...');
-    CheckUpdate;
+    if paramStr(2) = '' then
+      CheckUpdate('')
+    else
+      CheckUpdate(paramStr(2));
   end;
 
   if ParamStr(1) = '-r' then

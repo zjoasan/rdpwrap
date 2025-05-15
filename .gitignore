@@ -5,13 +5,3 @@
 # Delphi history and backups
 __history/
 *.~*
-
-# Compiled binaries
-*.dcu
-*.exe
-*.dll
-*.msi
-
-# MSI local stuff
-*.wixobj
-*.wixpdb
