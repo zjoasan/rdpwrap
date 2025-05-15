@@ -1,4 +1,16 @@
-# RDP Wrapper Library by Stas'M
+<div align="center">
+  
+# [RDP Wrapper Library.](https://github.com/BrenoFariasdaSilva/RDPWrapper)
+
+</div>
+
+<div align="center">
+  
+---
+
+The goal of this project is to enable Remote Desktop Host support and concurrent RDP sessions on reduced functionality systems for home usage.
+
+RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.
 
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/rdpwrap)
 ![Environment](https://img.shields.io/badge/Windows-Vista,%207,%208,%2010-brightgreen.svg)
@@ -7,9 +19,50 @@
 ![Downloads](https://img.shields.io/github/downloads/stascorp/rdpwrap/latest/total.svg)
 ![TotalDownloads](https://img.shields.io/github/downloads/stascorp/rdpwrap/total.svg)
 
-The goal of this project is to enable Remote Desktop Host support and concurrent RDP sessions on reduced functionality systems for home usage.
+---
 
-RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.
+</div>
+
+<div align="center">
+  
+![RepoBeats Statistics](https://repobeats.axiom.co/api/embed/e3a0c6672ce4228ac8d397377202d84a771bfe04.svg "Repobeats analytics image")
+
+</div>
+
+## Table of Contents
+- [RDP Wrapper Library.](#rdp-wrapper-library)
+	- [Table of Contents](#table-of-contents)
+	- [| Windows 10    |    |](#-windows-10--------)
+		- [Attention:](#attention)
+		- [Information:](#information)
+		- [Key features:](#key-features)
+		- [Porting to other platforms:](#porting-to-other-platforms)
+		- [Building the binaries:](#building-the-binaries)
+		- [Links:](#links)
+			- [Tutorial videos:](#tutorial-videos)
+		- [Files in release package:](#files-in-release-package)
+		- [Trouble Shooting:](#trouble-shooting)
+			- [RDPConfig.exe -\> "Not Supported":](#rdpconfigexe---not-supported)
+			- [MSTSC -\> "The number of connections to this computer is limited":](#mstsc---the-number-of-connections-to-this-computer-is-limited)
+			- [Enable 60FPS on RDP:](#enable-60fps-on-rdp)
+		- [Frequently Asked Questions](#frequently-asked-questions)
+		- [Known issues:](#known-issues)
+		- [Change log:](#change-log)
+			- [2017.12.27](#20171227)
+			- [2016.08.01](#20160801)
+			- [2015.08.12](#20150812)
+			- [2014.12.11](#20141211)
+			- [2014.11.14](#20141114)
+			- [2014.10.21](#20141021)
+			- [2014.10.20](#20141020)
+			- [2014.07.26](#20140726)
+			- [2013.12.09](#20131209)
+			- [2013.10.25](#20131025)
+			- [2013.10.22](#20131022)
+			- [2013.10.19](#20131019)
+			- [Supported Terminal Services versions:](#supported-terminal-services-versions)
+			- [Confirmed working on:](#confirmed-working-on)
+
 
 [pVistaST]:  http://stascorp.com/images/rdpwrap/pVistaST.jpg
 [pVistaHB]:  http://stascorp.com/images/rdpwrap/pVistaHB.jpg
@@ -114,6 +167,35 @@ It's recommended to have original termsrv.dll file with the RDP Wrapper installa
 | `install.bat`   | Quick install batch file |
 | `uninstall.bat` | Quick uninstall batch file |
 | `update.bat`    | Quick update batch file |
+
+### Trouble Shooting:
+
+#### RDPConfig.exe -> "Not Supported":
+In `RDPConfig.exe`, if you are getting the message "The number of connections to this computer is limited",
+Go to: https://github.com/stascorp/rdpwrap/issues
+Then, on the filter bar on GitHub, put is:issue RDPConfig Ver that is above "Not Supported or Supported".
+When you get the .ini text, paste it on C:\Program Files\RDP Wrapper folder .ini file
+After that, press enter at the end of the file and save changes.
+
+Next, run RDPConf.exe and check if it is all green lights
+
+Next, click Windows+R and type mstsc
+
+In mstsc, click on "Show Options", then type: mstsc 127.0.0.2 in the "Computer"
+In the Username type the account Username and save the shortcut file
+
+#### MSTSC -> "The number of connections to this computer is limited":
+If you get the message "The number of connections to this computer is limited", Open:
+https://github.com/stascorp/rdpwrap/issues/1401
+
+Futhermore, read: http://woshub.com/how-to-allow-multiple-rdp-sessions-in-windows-10/
+
+#### Enable 60FPS on RDP:
+Open Regedit and put the path inside the search bar
+Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Terminal Server\WinStations
+Novo Valor -> DWORD(32-bit)
+DWFRAMEINTERVAL
+Decimal -> 15
 
 ### Frequently Asked Questions
 
