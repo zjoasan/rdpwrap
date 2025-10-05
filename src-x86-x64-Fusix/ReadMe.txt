@@ -1,32 +1,33 @@
-﻿========================================================================
-    БИБЛИОТЕКА ДИНАМИЧЕСКОЙ КОМПОНОВКИ. Обзор проекта RDPWrap
-========================================================================
+﻿
+================================================================================================================================================================================================================================================================
+Dynamic Component Library. Review of the RDPWrap project
+================================================================================================================================================================================================================================================================
 
-Эта библиотека DLL RDPWrap создана автоматически с помощью мастера приложений.
+This DLL RDPWrap library is created automatically using the application wizard.
 
-В этом файле представлена сводка содержимого всех файлов, входящих в состав приложения RDPWrap.
+This file presents a summary of the contents of all files included in the RDPWrap application.
 
 
 RDPWrap.vcxproj
-    Это основной файл проекта VC++, создаваемый с помощью мастера приложений. Он содержит данные о версии языка Visual C++, использованной для создания файла, а также сведения о платформах, конфигурациях и функциях проекта, выбранных с помощью мастера приложений.
+This is the main file of the VC++ project, created using the application wizard. It contains information about the version of the Visual C++ language used to create the file, as well as information about the platforms, configurations and functions of the project selected using the application wizard.
 
 RDPWrap.vcxproj.filters
-    Это файл фильтров для проектов VC++, созданный с помощью мастера приложений. Он содержит сведения о сопоставлениях между файлами в вашем проекте и фильтрами. Эти сопоставления используются в среде IDE для группировки файлов с одинаковыми расширениями в одном узле (например CPP-файлы сопоставляются с фильтром "Исходные файлы").
+This is a filter file for VC++ projects created using the application wizard. It contains information about mapping between files in your project and filters. These mappings are used in an IDE environment to group files with the same extensions into a single node (for example, CPP files are matched to the Source Files filter).
 
 RDPWrap.cpp
-    Основной исходный файл библиотеки DLL.
+The primary source file of the DLL library.
 
-	При создании этой библиотеки DLL не выполняется экспорт символов. Поэтому при ее построении не создается LIB-файл. Если в этом проекте требуется определить зависимость от другого проекта, необходимо добавить код для экспорта символов из библиотеки DLL, чтобы обеспечить создание библиотеки экспорта, или задать значение «Да» для свойства «Пропустить входную библиотеку» на странице общих свойств папки «Компоновщик» в диалоговом окне «Страницы свойств» проекта.
+This DLL library does not export symbols. Therefore, no LIB file is created during its construction. If this project needs to determine a dependency on another project, you need to add a code to export characters from the DLL library to ensure the creation of an export library, or set a “Yes” value for the “Miss the input library” property on the general properties page of the “Component” folder in the “Property Pages” dialog box of the project.
 
-/////////////////////////////////////////////////////////////////////////////
-Другие стандартные файлы:
+// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+Other standard files:
 
 StdAfx.h, StdAfx.cpp
-    Эти файлы используются для построения файла предкомпилированного заголовка (PCH) с именем RDPWrap.pch и файла предкомпилированных типов с именем StdAfx.obj.
+These files are used to construct a precompiled header (PCH) file called RDPWrap.pch and a precompiled type file called StdAfx.obj.
 
-/////////////////////////////////////////////////////////////////////////////
-Прочие примечания.
+// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+Other notes.
 
-С помощью комментариев «TODO:» в мастере приложений обозначаются фрагменты исходного кода, которые необходимо дополнить или изменить.
+With the help of TODO: comments, the application wizard identifies the source code fragments that need to be supplemented or changed.
 
-/////////////////////////////////////////////////////////////////////////////
+// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /

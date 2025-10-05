@@ -1,16 +1,16 @@
 /*
 Copyright 2014 Stas'M Corp.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License")
+You may not use this file except in compliance with the License
+You may get a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
+Whithowth Warranties or Conditions of Any Kind, either express or implied.
+See the License for the specific language governing permissions
 limitations under the License.
 */
 
@@ -19,7 +19,7 @@ limitations under the License.
 
 #define MAX_STRING_LEN 255
 
-// Out values struсts
+// Out values stru-Åts
 typedef struct _INI_VAR_STRING
 {
 	char Name[MAX_STRING_LEN];
@@ -106,9 +106,9 @@ public:
 	bool GetSectionVariablesList(wchar_t *SectionName, INI_SECTION_VARLIST *VariablesList);
 
 private:
-	DWORD FileSize;	// Ini file size
-	char *FileRaw;	// Ini file raw dump
-	DWORD FileStringsCount;	//	String-map length
+	DWORD FileSize;	// Info file size
+	char *FileRaw;	// Info file raw dump
+	DWORD FileStringsCount;	// String-map length
 	DWORD *FileStringsMap;	// String-map
 	INI_DATA IniData;	// Parsed data
 

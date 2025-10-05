@@ -1,8 +1,8 @@
-// stdafx.cpp: исходный файл, содержащий только стандартные включаемые модули
-// RDPWrap.pch будет предкомпилированным заголовком
-// stdafx.obj будет содержать предварительно откомпилированные сведения о типе
+// stdafx.cpp: source file containing only standard plug-ins
+// RDPWrap.pch will be a precompiled header
+// stdafx.obj will contain precompiled type information
 
 #include "stdafx.h"
 
-// TODO: Установите ссылки на любые требующиеся дополнительные заголовки в файле STDAFX.H
-// , а не в данном файле
+// TODO: Install links to any additional headers required in the STDAFX file. H
+// and not in this file

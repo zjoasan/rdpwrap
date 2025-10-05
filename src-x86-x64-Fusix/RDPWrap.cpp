@@ -1,17 +1,17 @@
 /*
-  Copyright 2014 Stas'M Corp.
+Copyright 2014 Stas'M Corp.
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License")
+You may not use this file except in compliance with the License
+You may get a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+Whithowth Warranties or Conditions of Any Kind, either express or implied.
+See the License for the specific language governing permissions
+limitations under the License.
 */
 
 #include "stdafx.h"
@@ -37,19 +37,19 @@ typedef struct
 typedef unsigned long long PLATFORM_DWORD;
 struct FARJMP
 {	// x64 far jump | opcode | assembly
-	BYTE MovOp;		// 48	mov rax, ptr
+	BYTE MovOp;		// 48 mov rax, ptr
 	BYTE MovRegArg;	// B8
 	DWORD64 MovArg;	// PTR
-	BYTE PushRaxOp; // 50	push rax
-	BYTE RetOp;		// C3	retn
+	BYTE PushRaxOp; // 50 push raxx
+	BYTE RetOp;		// C3 retn
 };
 #else
 typedef unsigned long PLATFORM_DWORD;
 struct FARJMP
 {	// x86 far jump | opcode | assembly
-	BYTE PushOp;	// 68	push ptr
+	BYTE PushOp;	// 68 push ptr
 	DWORD PushArg;	// PTR
-	BYTE RetOp;		// C3	retn
+	BYTE RetOp;		// C3 retn
 };
 #endif
 
@@ -109,19 +109,19 @@ HMODULE GetCurrentModule()
 	return hModule;
 }
 
-/*PLATFORM_DWORD SearchAddressBySignature(char *StartPosition, PLATFORM_DWORD Size, char *Signature, int SignatureSize)
+/* PLATFORM_DWORD SearchAddressBySignature(char *StartPosition, PLATFORM_DWORD Size, char *Signature, int SignatureSize)
 {
-	PLATFORM_DWORD AddressReturn = -1;
+Platform_DWORD AddressReturn = -1
 
-	for (PLATFORM_DWORD i = 0; i < Size; i++)
-	{
-		for (int j = 0; StartPosition[i+j] == Signature[j] && j < SignatureSize; j++)
-		{
-			if (j == SignatureSize-1) AddressReturn = (PLATFORM_DWORD)&StartPosition[i];
-		}
-	}
+for (PLATFORM_DWORD i = 0; i < Size; i++)
+{
+for (int j = 0; StartPosition[i+j] == Signature[j] && j < SignatureSize; j++)
+{
+if (j == SignatureSize-1) AddressReturn = (PLATFORM_DWORD)&StartPosition[i]
+}
+}
 
-	return AddressReturn;
+return AddressReturn;
 }*/
 
 bool GetModuleCodeSectionInfo(HMODULE hModule, PLATFORM_DWORD *BaseAddr, PLATFORM_DWORD *BaseSize)
@@ -268,7 +268,7 @@ bool OverrideSL(LPWSTR ValueName, DWORD *Value)
 HRESULT WINAPI New_SLGetWindowsInformationDWORD(PWSTR pwszValueName, DWORD *pdwValue)
 {
 	// wrapped SLGetWindowsInformationDWORD function
-	// termsrv.dll will call this function instead of original SLC.dll
+	// termsrv.dll will call this function instead of original SLC.dll.
 
 	// Override SL Policy
 
@@ -316,7 +316,7 @@ HRESULT WINAPI New_SLGetWindowsInformationDWORD(PWSTR pwszValueName, DWORD *pdwV
 HRESULT __fastcall New_Win8SL(PWSTR pwszValueName, DWORD *pdwValue)
 {
 	// wrapped unexported function SLGetWindowsInformationDWORDWrapper in termsrv.dll
-	// for Windows 8 support
+	// For Windows 8 support
 
 	// Override SL Policy
 
@@ -361,7 +361,7 @@ HRESULT __fastcall New_Win8SL(PWSTR pwszValueName, DWORD *pdwValue)
 HRESULT __fastcall New_Win8SL_CP(DWORD arg1, DWORD *pdwValue, PWSTR pwszValueName, DWORD arg4)
 {
 	// wrapped unexported function SLGetWindowsInformationDWORDWrapper in termsrv.dll
-	// for Windows 8 Consumer Preview support
+	Windows 8 Consumer Preview Support
 
 	return New_Win8SL(pwszValueName, pdwValue);
 }
@@ -587,7 +587,7 @@ void Hook()
 	} else {
 		// check NT version
 		// Ver = GetVersion(); // deprecated
-		// Ver = ((Ver & 0xFF) << 8) | ((Ver & 0xFF00) >> 8);
+		// Ver = ((Ver & 0xFF) << 8) | ((Ver & 0xFF00 >> 8);
 	}
 	if (Ver == 0)
 	{
@@ -674,7 +674,7 @@ void Hook()
 		// uses SL Policy internal unexported function
 
 		// load slc.dll and get function
-		// (will be used on intercepting undefined values)
+		Will be used on intercepting undefined values
 		hSLC = LoadLibrary(L"slc.dll");
 		_SLGetWindowsInformationDWORD = (SLGETWINDOWSINFORMATIONDWORD)GetProcAddress(hSLC, "SLGetWindowsInformationDWORD");
 	}
