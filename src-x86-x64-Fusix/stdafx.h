@@ -1,22 +1,22 @@
-// stdafx.h: включаемый файл дл€ стандартных системных включаемых файлов
-// или включаемых файлов дл€ конкретного проекта, которые часто используютс€, но
-// не часто измен€ютс€
+// stdafx.h: include file for standard system include files,
+// or project specific include files that are used frequently, but
+// are changed infrequently
 //
 
 #pragma once
 
 #include "targetver.h"
 
-#define WIN32_LEAN_AND_MEAN             // »сключите редко используемые компоненты из заголовков Windows
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #define _CRT_SECURE_NO_WARNINGS
 
 
-// ‘айлы заголовков Windows:
+// Windows Header Files:
 #include <windows.h>
 #include <TlHelp32.h>
 
 
-// TODO: ”становите здесь ссылки на дополнительные заголовки, требующиес€ дл€ программы
+// TODO: reference additional headers your program requires here
 
 typedef VOID	(WINAPI* SERVICEMAIN)(DWORD, LPTSTR*);
 typedef VOID	(WINAPI* SVCHOSTPUSHSERVICEGLOBALS)(VOID*);

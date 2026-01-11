@@ -35,6 +35,7 @@ typedef struct
 
 #ifdef _WIN64
 typedef unsigned long long PLATFORM_DWORD;
+#pragma pack(push, 1)
 struct FARJMP
 {	// x64 far jump | opcode | assembly
 	BYTE MovOp;		// 48	mov rax, ptr
@@ -43,14 +44,17 @@ struct FARJMP
 	BYTE PushRaxOp; // 50	push rax
 	BYTE RetOp;		// C3	retn
 };
+#pragma pack(pop)
 #else
 typedef unsigned long PLATFORM_DWORD;
+#pragma pack(push, 1)
 struct FARJMP
 {	// x86 far jump | opcode | assembly
 	BYTE PushOp;	// 68	push ptr
 	DWORD PushArg;	// PTR
 	BYTE RetOp;		// C3	retn
 };
+#pragma pack(pop)
 #endif
 
 FARJMP Old_SLGetWindowsInformationDWORD, Stub_SLGetWindowsInformationDWORD;
@@ -66,28 +70,28 @@ SERVICEMAIN _ServiceMain;
 SVCHOSTPUSHSERVICEGLOBALS _SvchostPushServiceGlobals;
 bool AlreadyHooked = false;
 
-DWORD INIReadDWordHex(INI_FILE *IniFile, char *Sect, char *VariableName, PLATFORM_DWORD Default)
+DWORD INIReadDWordHex(INI_FILE *iniFile, char *Sect, char *VariableName, PLATFORM_DWORD Default)
 {
 	INI_VAR_DWORD Variable;
 
-	if(IniFile->GetVariableInSection(Sect, VariableName, &Variable))
+	if(iniFile->GetVariableInSection(Sect, VariableName, &Variable))
 	{
-		return Variable.ValueHex;
+		return (DWORD)Variable.ValueHex;
 	}
-	return Default;
+	return (DWORD)Default;
 }
 
-void INIReadString(INI_FILE *IniFile, char *Sect, char *VariableName, char *Default, char *Ret, DWORD RetSize)
+void INIReadString(INI_FILE *iniFile, char *Sect, char *VariableName, char *Default, char *Ret, DWORD RetSize)
 {
 	INI_VAR_STRING Variable;
 
 	memset(Ret, 0x00, RetSize);
-	if(!IniFile->GetVariableInSection(Sect, VariableName, &Variable))
+	if(!iniFile->GetVariableInSection(Sect, VariableName, &Variable))
 	{
-		strcpy_s(Ret, RetSize, Default);
+		strncpy_s(Ret, RetSize, Default, _TRUNCATE);
 		return;
 	}
-	strcpy_s(Ret, RetSize, Variable.Value);
+	strncpy_s(Ret, RetSize, Variable.Value, _TRUNCATE);
 }
 
 void WriteToLog(LPSTR Text)
@@ -98,7 +102,7 @@ void WriteToLog(LPSTR Text)
 	if (hFile == INVALID_HANDLE_VALUE) return;
 
 	SetFilePointer(hFile, 0, 0, FILE_END);
-	WriteFile(hFile, Text, strlen(Text), &dwBytesOfWritten, NULL);
+	WriteFile(hFile, Text, (DWORD)strlen(Text), &dwBytesOfWritten, NULL);
 	CloseHandle(hFile);
 }
 
@@ -130,11 +134,17 @@ bool GetModuleCodeSectionInfo(HMODULE hModule, PLATFORM_DWORD *BaseAddr, PLATFOR
 	PIMAGE_FILE_HEADER      pFileHeader;
 	PIMAGE_OPTIONAL_HEADER  pOptionalHeader;
 
-	if (hModule == NULL) return false;
+	if (hModule == NULL || BaseAddr == NULL || BaseSize == NULL) return false;
 
 	pDosHeader = (PIMAGE_DOS_HEADER)hModule;
+	if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE) return false; // Validate DOS signature
+
 	pFileHeader = (PIMAGE_FILE_HEADER)(((PBYTE)hModule)+pDosHeader->e_lfanew+4);
+	if (pFileHeader->Machine == 0) return false; // Invalid machine type
+
 	pOptionalHeader = (PIMAGE_OPTIONAL_HEADER)(pFileHeader+1);
+	if (pOptionalHeader->Magic != IMAGE_NT_OPTIONAL_HDR32_MAGIC &&
+		pOptionalHeader->Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC) return false; // Invalid PE signature
 
 	*BaseAddr = (PLATFORM_DWORD)hModule;
 	*BaseSize = (PLATFORM_DWORD)pOptionalHeader->SizeOfCode;
@@ -145,14 +155,11 @@ bool GetModuleCodeSectionInfo(HMODULE hModule, PLATFORM_DWORD *BaseAddr, PLATFOR
 
 void SetThreadsState(bool Resume)
 {
-	HANDLE h, hThread;
-	DWORD CurrTh, CurrPr;
+	auto CurrTh = GetCurrentThreadId();
+	auto CurrPr = GetCurrentProcessId();
 	THREADENTRY32 Thread;
 
-	CurrTh = GetCurrentThreadId();
-	CurrPr = GetCurrentProcessId();
-
-	h = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+	auto h = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
 	if (h != INVALID_HANDLE_VALUE)
 	{
 		Thread.dwSize = sizeof(THREADENTRY32);
@@ -161,11 +168,11 @@ void SetThreadsState(bool Resume)
 		{
 			if (Thread.th32ThreadID != CurrTh && Thread.th32OwnerProcessID == CurrPr)
 			{
-				hThread = OpenThread(THREAD_SUSPEND_RESUME, false, Thread.th32ThreadID);
-				if (hThread != INVALID_HANDLE_VALUE)
+				auto hThread = OpenThread(THREAD_SUSPEND_RESUME, false, Thread.th32ThreadID);
+				if (hThread)
 				{
-					if (Resume)		ResumeThread(hThread);
-					else			SuspendThread(hThread);
+					if (Resume) ResumeThread(hThread);
+					else SuspendThread(hThread);
 					CloseHandle(hThread);
 				}
 			}
@@ -259,7 +266,7 @@ bool OverrideSL(LPWSTR ValueName, DWORD *Value)
 	if (IniFile->VariableExists(L"SLPolicy", ValueName))
 	{
 		if (!(IniFile->GetVariableInSection(L"SLPolicy", ValueName, &Variable))) *Value = 0;
-		else *Value = Variable.ValueDec;
+		else *Value = (DWORD)Variable.ValueDec;
 		return true;
 	}
 	return false;
@@ -362,6 +369,9 @@ HRESULT __fastcall New_Win8SL_CP(DWORD arg1, DWORD *pdwValue, PWSTR pwszValueNam
 {
 	// wrapped unexported function SLGetWindowsInformationDWORDWrapper in termsrv.dll
 	// for Windows 8 Consumer Preview support
+	// Avoid unreferenced parameter warnings
+	(void)arg1;
+	(void)arg4;
 
 	return New_Win8SL(pwszValueName, pdwValue);
 }
@@ -500,32 +510,46 @@ void Hook()
 	extern wchar_t LogFile[256];
 
 	AlreadyHooked = true;
-	char *Log;
+	char *Log = nullptr;
 
 	wchar_t ConfigFile[256] = { 0x00 };
 	WriteToLog("Loading configuration...\r\n");
 
-	GetModuleFileName(GetCurrentModule(), ConfigFile, 255);
-	for (DWORD i = wcslen(ConfigFile); i > 0; i--)
+	DWORD fileNameLen = GetModuleFileName(GetCurrentModule(), ConfigFile, 255);
+	if (fileNameLen == 0 || fileNameLen >= 255) {
+		WriteToLog("Error: Failed to get module file name\r\n");
+		return;
+	}
+
+	for (size_t i = wcslen(ConfigFile); i > 0; i--)
 	{
 		if (ConfigFile[i] == '\\')
 		{
 			memset(&ConfigFile[i + 1], 0x00, ((256 - (i + 1))) * 2);
-			memcpy(&ConfigFile[i + 1], L"rdpwrap.ini", strlen("rdpwrap.ini") * 2);
+			wcsncpy_s(&ConfigFile[i + 1], 256 - (i + 1), L"rdpwrap.ini", _TRUNCATE);
 			break;
 		}
 	}
 
 	Log = new char[1024];
-	wsprintfA(Log, "Configuration file: %S\r\n", ConfigFile);
-	WriteToLog(Log);
-	delete[] Log;
+	if (Log != nullptr) {
+		wsprintfA(Log, "Configuration file: %S\r\n", ConfigFile);
+		WriteToLog(Log);
+		delete[] Log;
+		Log = nullptr;
+	}
 
 	IniFile = new INI_FILE(ConfigFile);
-	// TODO: implement this
-	if (IniFile == NULL)
+	// Check if the IniFile object was created successfully
+	if (IniFile == nullptr)
 	{
-		WriteToLog("Error: Failed to load configuration\r\n");
+		WriteToLog("Error: Failed to allocate configuration object\r\n");
+		return;
+	}
+	// Check if the file was loaded successfully by checking if sections exist
+	if (IniFile->SectionExists("Main") == false)
+	{
+		WriteToLog("Error: Failed to load configuration or invalid format\r\n");
 		return;
 	}
 
@@ -533,13 +557,18 @@ void Hook()
 
 	if(!(IniFile->GetVariableInSection("Main", "LogFile", &LogFileVar)))
 	{
-		GetModuleFileName(GetCurrentModule(), LogFile, 255);
-		for(DWORD i = wcslen(LogFile); i > 0; i--)
+		DWORD logFileNameLen = GetModuleFileName(GetCurrentModule(), LogFile, 255);
+		if (logFileNameLen == 0 || logFileNameLen >= 255) {
+			WriteToLog("Error: Failed to get module file name for log file\r\n");
+			return;
+		}
+
+		for(size_t i = wcslen(LogFile); i > 0; i--)
 		{
 			if(LogFile[i] == '\\')
 			{
 				memset(&LogFile[i+1], 0x00, ((256-(i+1)))*2);
-				memcpy(&LogFile[i+1], L"rdpwrap.txt", strlen("rdpwrap.txt")*2);
+				wcsncpy_s(&LogFile[i+1], 256-(i+1), L"rdpwrap.txt", _TRUNCATE);
 				break;
 			}
 		}
@@ -548,9 +577,14 @@ void Hook()
 	{
 		// TODO: Change it before add UNICODE in IniFile
 		wchar_t wcLogFile[256];
-		memset(wcLogFile, 0x00, 256);
-		mbstowcs(wcLogFile, LogFileVar.Value, 255);
-		wcscpy(LogFile, wcLogFile);
+		memset(wcLogFile, 0x00, sizeof(wcLogFile));
+		size_t converted = 0;
+		errno_t result = mbstowcs_s(&converted, wcLogFile, 256, LogFileVar.Value, _TRUNCATE);
+		if (result != 0) {
+			WriteToLog("Error: Failed to convert log file name\r\n");
+			return;
+		}
+		wcsncpy_s(LogFile, 256, wcLogFile, _TRUNCATE);
 	}
 
 	SIZE_T bw;
@@ -691,7 +725,7 @@ void Hook()
 
 	char *Sect;
 	INI_VAR_STRING PatchName;
-	INI_VAR_BYTEARRAY Patch;
+	INI_VAR_BYTEARRAY Patch = {0};
 	Sect = new char[256];
 	memset(Sect, 0x00, 256);
 	wsprintfA(Sect, "%d.%d.%d.%d", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
